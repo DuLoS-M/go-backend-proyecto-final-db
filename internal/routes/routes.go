@@ -40,6 +40,7 @@ func SetupRoutes(router *gin.Engine) {
 			admin.GET("/users", controllers.GetAllUsers)
 			admin.GET("/statistics", controllers.GetStatistics)
 			admin.GET("/bitacora", controllers.GetBitacora)
+			admin.GET("/loans", controllers.GetAllLoans) // Nuevo endpoint para admin
 
 			// Gestión de libros (admin)
 			admin.POST("/books", controllers.CreateBook)
@@ -49,6 +50,12 @@ func SetupRoutes(router *gin.Engine) {
 			// Gestión de roles
 			admin.GET("/roles", controllers.GetRoles)
 			admin.POST("/users/:id/roles", controllers.AssignRole)
+
+			// Reportes (admin)
+			admin.GET("/reports/prestamos-activos", controllers.GetReportePrestamosActivos)
+			admin.GET("/reports/usuarios-activos", controllers.GetReporteUsuariosActivos)
+			admin.GET("/reports/libros-populares", controllers.GetReporteLibrosPopulares)
+			admin.GET("/reports/estadisticas", controllers.GetEstadisticasGenerales)
 		}
 	}
 }

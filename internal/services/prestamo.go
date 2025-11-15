@@ -19,7 +19,7 @@ func NewPrestamoService() *PrestamoService {
 }
 
 // VerificarDisponibilidad verifica si hay ejemplares disponibles de un libro
-func (s *PrestamoService) VerificarDisponibilidad(isbn int) (bool, int, error) {
+func (s *PrestamoService) VerificarDisponibilidad(isbn string) (bool, int, error) {
 	query := `SELECT codigo 
 			  FROM Ejemplar 
 			  WHERE Libro_ISBN = :1 AND estado = 'DISPONIBLE'
@@ -40,7 +40,7 @@ func (s *PrestamoService) VerificarDisponibilidad(isbn int) (bool, int, error) {
 }
 
 // CrearPrestamo crea un nuevo préstamo y actualiza el estado del ejemplar
-func (s *PrestamoService) CrearPrestamo(usuarioID, libroISBN int) (*models.Prestamo, error) {
+func (s *PrestamoService) CrearPrestamo(usuarioID int, libroISBN string) (*models.Prestamo, error) {
 	// Verificar disponibilidad
 	disponible, codigoEjemplar, err := s.VerificarDisponibilidad(libroISBN)
 	if err != nil {
@@ -62,13 +62,19 @@ func (s *PrestamoService) CrearPrestamo(usuarioID, libroISBN int) (*models.Prest
 	fechaPrestamo := time.Now()
 	fechaDevolucion := fechaPrestamo.AddDate(0, 0, 15) // 15 días
 
+	// Obtener el próximo ID de la secuencia
 	var idPrestamo int
+	err = tx.QueryRow("SELECT PRESTAMO_SEQ.NEXTVAL FROM DUAL").Scan(&idPrestamo)
+	if err != nil {
+		return nil, err
+	}
+
+	// Insertar el préstamo
 	queryPrestamo := `INSERT INTO Prestamo 
 					  (IDPRESTAMO, FECHAPRESTAMO, FECHADEVOLUCIONPREVISTA, ESTADO, USUARIO_IDUSUARIO, DEVOLUCION_IDDEVOLUCION) 
-					  VALUES (PRESTAMO_SEQ.NEXTVAL, :1, :2, :3, :4, NULL)
-					  RETURNING IDPRESTAMO INTO :5`
+					  VALUES (:1, :2, :3, :4, :5, NULL)`
 
-	err = tx.QueryRow(queryPrestamo, fechaPrestamo, fechaDevolucion, "ACTIVO", usuarioID).Scan(&idPrestamo)
+	_, err = tx.Exec(queryPrestamo, idPrestamo, fechaPrestamo, fechaDevolucion, "ACTIVO", usuarioID)
 	if err != nil {
 		return nil, err
 	}

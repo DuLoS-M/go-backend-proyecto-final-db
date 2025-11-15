@@ -565,6 +565,238 @@ VALUES (3, SYSDATE-25, SYSDATE-10, NULL, 'ACTIVO', 6, NULL);
 UPDATE Ejemplar SET estado = 'PRESTADO', Prestamo_idPrestamo = 3 WHERE codigo = 7;
 
 -- ============================================================================
+-- PASO 17: USUARIOS ADICIONALES PARA DEMOSTRACIÓN COMPLETA
+-- ============================================================================
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=== PASO 17: Creando usuarios adicionales para demo ===');
+END;
+/
+
+-- Estudiante con múltiples préstamos activos: carlos.mendoza@estudiante.com / demo123
+INSERT INTO Usuario (idUsuario, nombre, apellido, contrasenia, correo, telefono, fechaRegistro)
+VALUES (7, 'Carlos', 'Mendoza', '$2a$14$LQv3c1yqBWVHxkd0LHAkCOuJJFsI8JQCj8gKj8kQ7qJH8QKjCj8Q7', 'carlos.mendoza@estudiante.com', 55555001, SYSDATE);
+
+INSERT INTO UsuarioRol (idUsuarioRol, Usuario_idUsuario, Roles_idRol) 
+VALUES (7, 7, 2);
+
+INSERT INTO Estudiante (carnet, carrera, semestre, Usuario_idUsuario)
+VALUES (2024004, 'Ingeniería en Sistemas', 6, 7);
+
+-- Estudiante con préstamos vencidos: ana.ramirez@estudiante.com / demo123
+INSERT INTO Usuario (idUsuario, nombre, apellido, contrasenia, correo, telefono, fechaRegistro)
+VALUES (8, 'Ana', 'Ramirez', '$2a$14$LQv3c1yqBWVHxkd0LHAkCOuJJFsI8JQCj8gKj8kQ7qJH8QKjCj8Q7', 'ana.ramirez@estudiante.com', 55555002, SYSDATE - 30);
+
+INSERT INTO UsuarioRol (idUsuarioRol, Usuario_idUsuario, Roles_idRol) 
+VALUES (8, 8, 2);
+
+INSERT INTO Estudiante (carnet, carrera, semestre, Usuario_idUsuario)
+VALUES (2024005, 'Ingeniería Industrial', 4, 8);
+
+-- Profesor activo: patricia.lopez@profesor.com / demo123
+INSERT INTO Usuario (idUsuario, nombre, apellido, contrasenia, correo, telefono, fechaRegistro)
+VALUES (9, 'Dra. Patricia', 'Lopez', '$2a$14$LQv3c1yqBWVHxkd0LHAkCOuJJFsI8JQCj8gKj8kQ7qJH8QKjCj8Q7', 'patricia.lopez@profesor.com', 55555003, SYSDATE - 60);
+
+INSERT INTO UsuarioRol (idUsuarioRol, Usuario_idUsuario, Roles_idRol) 
+VALUES (9, 9, 3);
+
+INSERT INTO Profesor (codigoDocencia, facultad, Usuario_idUsuario)
+VALUES (3002, 'Facultad de Ingeniería', 9);
+
+-- Estudiantes adicionales para estadísticas (estudiante1@demo.com - estudiante5@demo.com / demo123)
+INSERT INTO Usuario (idUsuario, nombre, apellido, contrasenia, correo, telefono, fechaRegistro) 
+VALUES (10, 'Estudiante1', 'Demo', '$2a$14$LQv3c1yqBWVHxkd0LHAkCOuJJFsI8JQCj8gKj8kQ7qJH8QKjCj8Q7', 'estudiante1@demo.com', 55555010, SYSDATE - 10);
+INSERT INTO UsuarioRol (idUsuarioRol, Usuario_idUsuario, Roles_idRol) VALUES (10, 10, 2);
+INSERT INTO Estudiante (carnet, carrera, semestre, Usuario_idUsuario) VALUES (2024006, 'Carrera Demo 1', 2, 10);
+
+INSERT INTO Usuario (idUsuario, nombre, apellido, contrasenia, correo, telefono, fechaRegistro) 
+VALUES (11, 'Estudiante2', 'Demo', '$2a$14$LQv3c1yqBWVHxkd0LHAkCOuJJFsI8JQCj8gKj8kQ7qJH8QKjCj8Q7', 'estudiante2@demo.com', 55555011, SYSDATE - 20);
+INSERT INTO UsuarioRol (idUsuarioRol, Usuario_idUsuario, Roles_idRol) VALUES (11, 11, 2);
+INSERT INTO Estudiante (carnet, carrera, semestre, Usuario_idUsuario) VALUES (2024007, 'Carrera Demo 2', 3, 11);
+
+INSERT INTO Usuario (idUsuario, nombre, apellido, contrasenia, correo, telefono, fechaRegistro) 
+VALUES (12, 'Estudiante3', 'Demo', '$2a$14$LQv3c1yqBWVHxkd0LHAkCOuJJFsI8JQCj8gKj8kQ7qJH8QKjCj8Q7', 'estudiante3@demo.com', 55555012, SYSDATE - 30);
+INSERT INTO UsuarioRol (idUsuarioRol, Usuario_idUsuario, Roles_idRol) VALUES (12, 12, 2);
+INSERT INTO Estudiante (carnet, carrera, semestre, Usuario_idUsuario) VALUES (2024008, 'Carrera Demo 3', 4, 12);
+
+INSERT INTO Usuario (idUsuario, nombre, apellido, contrasenia, correo, telefono, fechaRegistro) 
+VALUES (13, 'Estudiante4', 'Demo', '$2a$14$LQv3c1yqBWVHxkd0LHAkCOuJJFsI8JQCj8gKj8kQ7qJH8QKjCj8Q7', 'estudiante4@demo.com', 55555013, SYSDATE - 40);
+INSERT INTO UsuarioRol (idUsuarioRol, Usuario_idUsuario, Roles_idRol) VALUES (13, 13, 2);
+INSERT INTO Estudiante (carnet, carrera, semestre, Usuario_idUsuario) VALUES (2024009, 'Carrera Demo 4', 5, 13);
+
+INSERT INTO Usuario (idUsuario, nombre, apellido, contrasenia, correo, telefono, fechaRegistro) 
+VALUES (14, 'Estudiante5', 'Demo', '$2a$14$LQv3c1yqBWVHxkd0LHAkCOuJJFsI8JQCj8gKj8kQ7qJH8QKjCj8Q7', 'estudiante5@demo.com', 55555014, SYSDATE - 50);
+INSERT INTO UsuarioRol (idUsuarioRol, Usuario_idUsuario, Roles_idRol) VALUES (14, 14, 2);
+INSERT INTO Estudiante (carnet, carrera, semestre, Usuario_idUsuario) VALUES (2024010, 'Carrera Demo 5', 6, 14);
+
+-- ============================================================================
+-- PASO 18: EJEMPLARES ADICIONALES PARA PRÉSTAMOS
+-- ============================================================================
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=== PASO 18: Creando ejemplares adicionales ===');
+END;
+/
+
+-- Agregar más ejemplares para soportar más préstamos
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (19, 'DISPONIBLE', 1001, NULL);
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (20, 'DISPONIBLE', 1001, NULL);
+
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (21, 'DISPONIBLE', 1002, NULL);
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (22, 'DISPONIBLE', 1003, NULL);
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (23, 'DISPONIBLE', 1004, NULL);
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (24, 'DISPONIBLE', 1005, NULL);
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (25, 'DISPONIBLE', 1007, NULL);
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (26, 'DISPONIBLE', 1007, NULL);
+INSERT INTO Ejemplar (codigo, estado, Libro_ISBN, Prestamo_idPrestamo) VALUES (27, 'DISPONIBLE', 1008, NULL);
+
+-- ============================================================================
+-- PASO 19: PRÉSTAMOS DE DEMOSTRACIÓN - ACTIVOS
+-- ============================================================================
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=== PASO 19: Creando préstamos activos ===');
+END;
+/
+
+-- Carlos: 2 préstamos activos
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (4, SYSDATE - 5, SYSDATE + 10, NULL, 'ACTIVO', 7, NULL);
+UPDATE Ejemplar SET estado = 'PRESTADO', Prestamo_idPrestamo = 4 WHERE codigo = 19;
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (5, SYSDATE - 3, SYSDATE + 12, NULL, 'ACTIVO', 7, NULL);
+UPDATE Ejemplar SET estado = 'PRESTADO', Prestamo_idPrestamo = 5 WHERE codigo = 22;
+
+-- Patricia: 1 préstamo activo
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (6, SYSDATE - 7, SYSDATE + 8, NULL, 'ACTIVO', 9, NULL);
+UPDATE Ejemplar SET estado = 'PRESTADO', Prestamo_idPrestamo = 6 WHERE codigo = 21;
+
+-- ============================================================================
+-- PASO 20: PRÉSTAMOS DE DEMOSTRACIÓN - VENCIDOS
+-- ============================================================================
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=== PASO 20: Creando préstamos vencidos ===');
+END;
+/
+
+-- Ana: 2 préstamos vencidos
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (7, SYSDATE - 25, SYSDATE - 10, NULL, 'ACTIVO', 8, NULL);
+UPDATE Ejemplar SET estado = 'PRESTADO', Prestamo_idPrestamo = 7 WHERE codigo = 23;
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (8, SYSDATE - 30, SYSDATE - 15, NULL, 'ACTIVO', 8, NULL);
+UPDATE Ejemplar SET estado = 'PRESTADO', Prestamo_idPrestamo = 8 WHERE codigo = 24;
+
+-- Estudiante1: 1 préstamo vencido
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (9, SYSDATE - 20, SYSDATE - 5, NULL, 'ACTIVO', 10, NULL);
+UPDATE Ejemplar SET estado = 'PRESTADO', Prestamo_idPrestamo = 9 WHERE codigo = 14;
+
+-- ============================================================================
+-- PASO 21: PRÉSTAMOS HISTÓRICOS (DEVUELTOS)
+-- ============================================================================
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=== PASO 21: Creando préstamos históricos ===');
+END;
+/
+
+-- Carlos: 3 préstamos devueltos a tiempo
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (10, SYSDATE - 40, SYSDATE - 25, SYSDATE - 22, 'DEVUELTO', 7, NULL);
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (11, SYSDATE - 50, SYSDATE - 35, SYSDATE - 32, 'DEVUELTO', 7, NULL);
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (12, SYSDATE - 60, SYSDATE - 45, SYSDATE - 42, 'DEVUELTO', 7, NULL);
+
+-- Ana: 2 préstamos devueltos tarde
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (13, SYSDATE - 60, SYSDATE - 45, SYSDATE - 40, 'DEVUELTO', 8, NULL);
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (14, SYSDATE - 75, SYSDATE - 60, SYSDATE - 55, 'DEVUELTO', 8, NULL);
+
+-- Patricia: 4 préstamos devueltos a tiempo
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (15, SYSDATE - 67, SYSDATE - 52, SYSDATE - 50, 'DEVUELTO', 9, NULL);
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (16, SYSDATE - 74, SYSDATE - 59, SYSDATE - 57, 'DEVUELTO', 9, NULL);
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (17, SYSDATE - 81, SYSDATE - 66, SYSDATE - 64, 'DEVUELTO', 9, NULL);
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (18, SYSDATE - 88, SYSDATE - 73, SYSDATE - 71, 'DEVUELTO', 9, NULL);
+
+-- Estudiantes demo: préstamos variados devueltos
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (19, SYSDATE - 25, SYSDATE - 10, SYSDATE - 8, 'DEVUELTO', 11, NULL);
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (20, SYSDATE - 35, SYSDATE - 20, SYSDATE - 18, 'DEVUELTO', 12, NULL);
+
+INSERT INTO Prestamo (idPrestamo, fechaPrestamo, fechaDevolucionPrevista, fechaDevolucionReal, estado, Usuario_idUsuario, Devolucion_idDevolucion)
+VALUES (21, SYSDATE - 45, SYSDATE - 30, SYSDATE - 28, 'DEVUELTO', 13, NULL);
+
+-- ============================================================================
+-- PASO 22: REGISTROS DE BITÁCORA PARA DEMOSTRACIÓN
+-- ============================================================================
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=== PASO 22: Generando registros de bitácora ===');
+END;
+/
+
+-- Registros de login
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (1, 'LOGIN', SYSDATE - 1, 'Inicio de sesión exitoso', 'Usuario', 1);
+
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (2, 'LOGIN', SYSDATE - 0.5, 'Inicio de sesión exitoso', 'Usuario', 7);
+
+-- Registros de préstamos
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (3, 'CREATE', SYSDATE - 5, 'Préstamo creado para libro ISBN: 1001', 'Prestamo', 7);
+
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (4, 'CREATE', SYSDATE - 3, 'Préstamo creado para libro ISBN: 1003', 'Prestamo', 7);
+
+-- Registros de devoluciones
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (5, 'UPDATE', SYSDATE - 22, 'Libro devuelto - Préstamo completado', 'Prestamo', 7);
+
+-- Registros admin
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (6, 'READ', SYSDATE - 0.1, 'Consulta de estadísticas del sistema', 'Estadisticas', 1);
+
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (7, 'READ', SYSDATE - 0.05, 'Consulta de todos los usuarios', 'Usuario', 1);
+
+-- Más registros de actividad
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (8, 'CREATE', SYSDATE - 25, 'Préstamo creado para libro ISBN: 1004', 'Prestamo', 8);
+
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (9, 'CREATE', SYSDATE - 7, 'Préstamo creado para libro ISBN: 1002', 'Prestamo', 9);
+
+INSERT INTO Bitacora (idBitacora, accion, fechaHora, detalle, entidad, Usuario_idUsuario)
+VALUES (10, 'READ', SYSDATE - 2, 'Búsqueda de libros: Clean Code', 'Libro', 11);
+
+-- ============================================================================
+-- PASO 23: ACTUALIZAR CONTADORES DE LIBROS
+-- ============================================================================
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=== PASO 23: Actualizando contadores de disponibilidad ===');
+END;
+/
+
+-- Actualizar cantidad disponible según ejemplares prestados
+UPDATE Libro SET cantidadDisponible = 
+    (SELECT COUNT(*) FROM Ejemplar WHERE Ejemplar.Libro_ISBN = Libro.ISBN AND estado = 'DISPONIBLE')
+WHERE ISBN IN (1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010);
+
+-- ============================================================================
 -- COMMIT FINAL
 -- ============================================================================
 COMMIT;
@@ -581,6 +813,9 @@ END;
 
 DECLARE
     v_count NUMBER;
+    v_activos NUMBER;
+    v_vencidos NUMBER;
+    v_devueltos NUMBER;
 BEGIN
     SELECT COUNT(*) INTO v_count FROM Usuario;
     DBMS_OUTPUT.PUT_LINE('Usuarios: ' || v_count);
@@ -604,7 +839,19 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Ejemplares: ' || v_count);
     
     SELECT COUNT(*) INTO v_count FROM Prestamo;
-    DBMS_OUTPUT.PUT_LINE('Préstamos: ' || v_count);
+    DBMS_OUTPUT.PUT_LINE('Préstamos totales: ' || v_count);
+    
+    SELECT COUNT(*) INTO v_activos FROM Prestamo WHERE estado = 'ACTIVO' AND fechaDevolucionPrevista >= SYSDATE;
+    DBMS_OUTPUT.PUT_LINE('Préstamos activos: ' || v_activos);
+    
+    SELECT COUNT(*) INTO v_vencidos FROM Prestamo WHERE estado = 'ACTIVO' AND fechaDevolucionPrevista < SYSDATE;
+    DBMS_OUTPUT.PUT_LINE('Préstamos vencidos: ' || v_vencidos);
+    
+    SELECT COUNT(*) INTO v_devueltos FROM Prestamo WHERE estado = 'DEVUELTO';
+    DBMS_OUTPUT.PUT_LINE('Préstamos devueltos: ' || v_devueltos);
+    
+    SELECT COUNT(*) INTO v_count FROM Bitacora;
+    DBMS_OUTPUT.PUT_LINE('Registros de bitácora: ' || v_count);
     
     SELECT COUNT(*) INTO v_count FROM Estudiante;
     DBMS_OUTPUT.PUT_LINE('Estudiantes: ' || v_count);
@@ -620,26 +867,44 @@ END;
 BEGIN
     DBMS_OUTPUT.PUT_LINE('');
     DBMS_OUTPUT.PUT_LINE('======================================================');
-    DBMS_OUTPUT.PUT_LINE('BASE DE DATOS CONFIGURADA EXITOSAMENTE');
+    DBMS_OUTPUT.PUT_LINE('BASE DE DATOS CONFIGURADA EXITOSAMENTE CON DEMO DATA');
     DBMS_OUTPUT.PUT_LINE('======================================================');
     DBMS_OUTPUT.PUT_LINE('');
-    DBMS_OUTPUT.PUT_LINE('USUARIOS DE PRUEBA:');
+    DBMS_OUTPUT.PUT_LINE('USUARIOS PRINCIPALES:');
     DBMS_OUTPUT.PUT_LINE('---------------------------------------------------');
     DBMS_OUTPUT.PUT_LINE('Admin:');
     DBMS_OUTPUT.PUT_LINE('  Email: admin@biblioteca.edu');
     DBMS_OUTPUT.PUT_LINE('  Password: admin123');
     DBMS_OUTPUT.PUT_LINE('');
-    DBMS_OUTPUT.PUT_LINE('Estudiante:');
-    DBMS_OUTPUT.PUT_LINE('  Email: juan.perez@estudiante.edu');
-    DBMS_OUTPUT.PUT_LINE('  Password: estudiante123');
+    DBMS_OUTPUT.PUT_LINE('USUARIOS DE DEMOSTRACIÓN:');
+    DBMS_OUTPUT.PUT_LINE('---------------------------------------------------');
+    DBMS_OUTPUT.PUT_LINE('Estudiante con préstamos activos:');
+    DBMS_OUTPUT.PUT_LINE('  Email: carlos.mendoza@estudiante.com');
+    DBMS_OUTPUT.PUT_LINE('  Password: demo123');
+    DBMS_OUTPUT.PUT_LINE('  Estado: 2 préstamos activos');
     DBMS_OUTPUT.PUT_LINE('');
-    DBMS_OUTPUT.PUT_LINE('Profesor:');
-    DBMS_OUTPUT.PUT_LINE('  Email: maria.lopez@profesor.edu');
-    DBMS_OUTPUT.PUT_LINE('  Password: profesor123');
+    DBMS_OUTPUT.PUT_LINE('Estudiante con préstamos vencidos:');
+    DBMS_OUTPUT.PUT_LINE('  Email: ana.ramirez@estudiante.com');
+    DBMS_OUTPUT.PUT_LINE('  Password: demo123');
+    DBMS_OUTPUT.PUT_LINE('  Estado: 2 préstamos vencidos');
     DBMS_OUTPUT.PUT_LINE('');
-    DBMS_OUTPUT.PUT_LINE('Personal:');
-    DBMS_OUTPUT.PUT_LINE('  Email: carlos.garcia@biblioteca.edu');
-    DBMS_OUTPUT.PUT_LINE('  Password: personal123');
+    DBMS_OUTPUT.PUT_LINE('Profesor activo:');
+    DBMS_OUTPUT.PUT_LINE('  Email: patricia.lopez@profesor.com');
+    DBMS_OUTPUT.PUT_LINE('  Password: demo123');
+    DBMS_OUTPUT.PUT_LINE('  Estado: 1 préstamo activo');
+    DBMS_OUTPUT.PUT_LINE('');
+    DBMS_OUTPUT.PUT_LINE('Estudiante con préstamo vencido:');
+    DBMS_OUTPUT.PUT_LINE('  Email: estudiante1@demo.com');
+    DBMS_OUTPUT.PUT_LINE('  Password: demo123');
+    DBMS_OUTPUT.PUT_LINE('  Estado: 1 préstamo vencido');
+    DBMS_OUTPUT.PUT_LINE('');
+    DBMS_OUTPUT.PUT_LINE('CASOS DE PRUEBA DISPONIBLES:');
+    DBMS_OUTPUT.PUT_LINE('• Usuarios con préstamos activos y vencidos');
+    DBMS_OUTPUT.PUT_LINE('• Historial completo de préstamos devueltos');
+    DBMS_OUTPUT.PUT_LINE('• Libros con diferentes niveles de disponibilidad');
+    DBMS_OUTPUT.PUT_LINE('• Registros de bitácora para auditoría');
+    DBMS_OUTPUT.PUT_LINE('• Ejemplares en diferentes estados');
+    DBMS_OUTPUT.PUT_LINE('• Estadísticas completas para reportes');
     DBMS_OUTPUT.PUT_LINE('======================================================');
 END;
 /

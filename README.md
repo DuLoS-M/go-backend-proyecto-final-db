@@ -1,79 +1,50 @@
-# University Library Management System
+# Sistema de Gestión de Biblioteca Universitaria
 
-This project is a University Library Management System built using the Gin framework in Go, designed to facilitate user registration, book management, and loan tracking.
+Sistema de gestión de biblioteca desarrollado en Go con base de datos Oracle.
 
-## Project Structure
+## Características
 
-```
-proyecto-bd-final
-├── cmd
-│   └── server
-│       └── main.go          # Entry point of the application
-├── internal
-│   ├── config
-│   │   └── database.go      # Database configuration
-│   ├── controllers
-│   │   ├── auth.go          # User authentication functions
-│   │   ├── book.go          # Book management functions
-│   │   └── loan.go          # Loan management functions
-│   ├── middleware
-│   │   └── auth.go          # Authentication middleware
-│   ├── models
-│   │   ├── user.go          # User model definition
-│   │   ├── book.go          # Book model definition
-│   │   └── loan.go          # Loan model definition
-│   ├── repository
-│   │   ├── user.go          # User repository functions
-│   │   ├── book.go          # Book repository functions
-│   │   └── loan.go          # Loan repository functions
-│   ├── routes
-│   │   └── routes.go        # Application routes
-│   └── services
-│       ├── auth.go          # User authentication logic
-│       ├── book.go          # Book management logic
-│       └── loan.go          # Loan management logic
-├── pkg
-│   └── utils
-│       └── response.go      # Utility functions for API responses
-├── migrations
-│   ├── 001_create_users_table.sql  # SQL for creating Users table
-│   ├── 002_create_books_table.sql  # SQL for creating Books table
-│   └── 003_create_loans_table.sql  # SQL for creating Loans table
-├── go.mod                     # Go module definition
-├── go.sum                     # Module dependency checksums
-└── README.md                  # Project documentation
+- Autenticación con JWT y control de roles
+- Gestión completa de libros y préstamos
+- Panel administrativo con reportes
+- Auditoría de todas las acciones
+
+## Tecnologías
+
+- **Backend**: Go + Gin Framework
+- **Base de Datos**: Oracle Database
+- **Autenticación**: JWT + bcrypt
+
+## Configuración Rápida
+
+1. **Configurar variables de entorno** (archivo `.env`):
+```env
+DB_USER=tu_usuario
+DB_PASSWORD=tu_contraseña
+DB_HOST=localhost
+DB_PORT=1521
+DB_SERVICE=tu_servicio
+JWT_SECRET=tu_secreto_jwt
 ```
 
-## Setup Instructions
+2. **Instalar dependencias**:
+```bash
+go mod download
+```
 
-1. **Clone the repository:**
-   ```
-   git clone <repository-url>
-   cd proyecto-bd-final
-   ```
+3. **Ejecutar el servidor**:
+```bash
+go run server/main.go
+```
 
-2. **Install dependencies:**
-   ```
-   go mod tidy
-   ```
+## Credenciales por Defecto
 
-3. **Configure the database:**
-   Update the `internal/config/database.go` file with your Oracle database connection settings.
+Actualizar contraseñas con: `go run scripts/setup_users.go`
 
-4. **Run migrations:**
-   Execute the SQL scripts in the `migrations` folder to set up the database schema.
+- **Admin**: admin@biblioteca.edu / admin123
+- **Estudiante**: juan.perez@estudiante.edu / estudiante123
+- **Profesor**: maria.lopez@profesor.edu / profesor123
 
-5. **Start the server:**
-   ```
-   go run cmd/server/main.go
-   ```
+## Servidor
 
-## Functionality Overview
-
-- **User Registration and Authentication:** Users can register and log in to the system.
-- **Book Management:** Admins can add, update, and retrieve book information.
-- **Loan Tracking:** Users can request loans for books and return them when done.
-
-## License
-
-This project is licensed under the MIT License.
+El servidor corre en `http://localhost:8080`

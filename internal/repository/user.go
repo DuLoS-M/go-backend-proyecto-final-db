@@ -109,7 +109,7 @@ func (r *UserRepository) GetRoles(userID int) ([]string, error) {
 
 	rows, err := config.DB.Query(query, userID)
 	if err != nil {
-		return nil, err
+		return []string{}, err // Retornar array vacío en lugar de nil
 	}
 	defer rows.Close()
 
@@ -117,9 +117,14 @@ func (r *UserRepository) GetRoles(userID int) ([]string, error) {
 	for rows.Next() {
 		var role string
 		if err := rows.Scan(&role); err != nil {
-			return nil, err
+			return []string{}, err // Retornar array vacío en lugar de nil
 		}
 		roles = append(roles, role)
+	}
+
+	// Si no hay roles, retornar array vacío en lugar de nil
+	if roles == nil {
+		roles = []string{}
 	}
 
 	return roles, nil

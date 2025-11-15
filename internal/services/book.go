@@ -177,11 +177,11 @@ func (s *BookService) SearchBooks(searchTerm string) ([]*models.Libro, error) {
               LEFT JOIN LibroAutor LA ON L.ISBN = LA.Libro_ISBN
               LEFT JOIN Autor A ON LA.Autor_idAutor = A.idAutor
               WHERE LOWER(L.titulo) LIKE '%' || LOWER(:1) || '%'
-              OR LOWER(A.nombre) LIKE '%' || LOWER(:1) || '%'
-              OR LOWER(A.apellido) LIKE '%' || LOWER(:1) || '%'
+              OR LOWER(A.nombre) LIKE '%' || LOWER(:2) || '%'
+              OR LOWER(A.apellido) LIKE '%' || LOWER(:3) || '%'
               ORDER BY L.titulo`
 
-	rows, err := config.DB.Query(query, searchTerm)
+	rows, err := config.DB.Query(query, searchTerm, searchTerm, searchTerm)
 	if err != nil {
 		return nil, err
 	}

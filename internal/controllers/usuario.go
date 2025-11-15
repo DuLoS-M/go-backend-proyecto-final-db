@@ -93,16 +93,33 @@ func GetProfile(c *gin.Context) {
 		return
 	}
 
-	usuario, err := userRepo.GetByID(userID.(int))
+	// Convertir a int de forma segura
+	var userIDInt int
+	switch v := userID.(type) {
+	case int:
+		userIDInt = v
+	case float64:
+		userIDInt = int(v)
+	default:
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Error en el formato del ID de usuario", nil)
+		return
+	}
+
+	usuario, err := userRepo.GetByID(userIDInt)
 	if err != nil {
 		utils.ErrorResponse(c, http.StatusNotFound, "Usuario no encontrado", err)
 		return
 	}
 
-	roles, err := userRepo.GetRoles(userID.(int))
+	roles, err := userRepo.GetRoles(userIDInt)
 	if err != nil {
 		utils.ErrorResponse(c, http.StatusInternalServerError, "Error al obtener roles", err)
 		return
+	}
+
+	// Asegurarse de que roles no sea nil
+	if roles == nil {
+		roles = []string{}
 	}
 
 	utils.SuccessResponse(c, http.StatusOK, "Perfil obtenido", gin.H{
